@@ -83,6 +83,7 @@
         pkgs.eigen
         pkgs.libspnav
         pkgs.mpi
+        pkgs.pcl
 
         # ------------------------
         # OpenGL
@@ -120,7 +121,7 @@
         in pkgs.mkShell {
           LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
           packages = packages;
-          buildInputs = packages;
+          # buildInputs = packages;
           shellHook = ''
             echo "Entering FreeCAD development shell with Qt6 support (${shellName})"
 
@@ -146,6 +147,8 @@
             alias config="mkdir -p $BUILD_BASE/build && cd $BUILD_BASE/build && cmake -GNinja -DFREECAD_USE_PYBIND11=ON -DCMAKE_INSTALL_PREFIX=/usr/local $BUILD_BASE/FreeCAD"
             alias compile="cmake --build $BUILD_BASE/build"
             alias freecad="$BUILD_BASE/build/bin/FreeCAD -P $PYLIB0/lib -P $PYLIB0/lib/python3.12/site-packages"
+            alias pull="cd $BUILD_BASE/FreeCAD && git pull && git submodule update --init --recursive"
+
           '';
         };
 
